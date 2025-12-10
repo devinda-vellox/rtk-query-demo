@@ -61,6 +61,7 @@ export function TodoList() {
 
       <div className="text-center">
         <Button variant="ghost" size="sm" onClick={() => dispatch(fetchTodos())}>
+          {status === "loading" && <Spinner className="size-4 mr-2" />}
           Reload Todos
         </Button>
       </div>
