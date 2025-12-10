@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useAppSelector, useAppDispatch } from "@/store/hooks"
+import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { AddTodo } from "./AddTodo"
 import { TodoItem } from "./TodoItem"
@@ -57,6 +58,12 @@ export function TodoList() {
           {remainingCount} of {todoCount} remaining
         </p>
       )}
+
+      <div className="text-center">
+        <Button variant="ghost" size="sm" onClick={() => dispatch(fetchTodos())}>
+          Reload Todos
+        </Button>
+      </div>
     </div>
   )
 }
