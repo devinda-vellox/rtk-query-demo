@@ -2,19 +2,18 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
+import { useAppDispatch } from "@/store/hooks"
+import { addTodo } from "./todosSlice"
 
-interface AddTodoProps {
-  onAdd: (text: string) => void
-}
-
-export function AddTodo({ onAdd }: AddTodoProps) {
+export function AddTodo() {
+  const dispatch = useAppDispatch()
   const [text, setText] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const trimmed = text.trim()
     if (trimmed) {
-      onAdd(trimmed)
+      dispatch(addTodo(trimmed))
       setText("")
     }
   }

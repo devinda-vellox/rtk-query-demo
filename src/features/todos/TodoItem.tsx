@@ -1,21 +1,23 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
+import { useAppDispatch } from "@/store/hooks"
+import { toggleTodo, deleteTodo } from "./todosSlice"
 import type { Todo } from "./types"
 
 interface TodoItemProps {
   todo: Todo
-  onToggle: (id: string) => void
-  onDelete: (id: string) => void
 }
 
-export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
+export function TodoItem({ todo }: TodoItemProps) {
+  const dispatch = useAppDispatch()
+
   return (
     <div className="flex items-center gap-3 p-3 rounded-lg border bg-card">
       <Checkbox
         id={`todo-${todo.id}`}
         checked={todo.completed}
-        onCheckedChange={() => onToggle(todo.id)}
+        onCheckedChange={() => dispatch(toggleTodo(todo.id))}
       />
       <label
         htmlFor={`todo-${todo.id}`}
@@ -28,7 +30,7 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
       <Button
         variant="ghost"
         size="icon-sm"
-        onClick={() => onDelete(todo.id)}
+        onClick={() => dispatch(deleteTodo(todo.id))}
         aria-label="Delete todo"
       >
         <Trash2 className="size-4" />
