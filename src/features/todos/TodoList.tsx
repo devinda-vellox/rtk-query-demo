@@ -40,7 +40,7 @@ export function TodoList() {
       <AddTodo />
 
       <div className="space-y-2">
-        {status === "loading" ? (
+        {status === "loading" && todoCount === 0 ? (
           <div className="flex justify-center py-8">
             <Spinner className="size-6" />
           </div>
