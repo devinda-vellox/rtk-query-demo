@@ -5,10 +5,21 @@ import { store } from './store'
 import './index.css'
 import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>,
-)
+async function enableMocking() {
+  if (import.meta.env.PROD) {
+    return
+  }
+
+  const { worker } = await import('./mocks/browser')
+  return worker.start()
+}
+
+enableMocking().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </StrictMode>,
+  )
+})

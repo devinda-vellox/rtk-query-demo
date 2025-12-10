@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 import { useAppDispatch } from "@/store/hooks"
-import { toggleTodo, deleteTodo } from "./todosSlice"
+import { toggleTodo, deleteTodo } from "./todosThunks"
 import type { Todo } from "./types"
 
 interface TodoItemProps {
