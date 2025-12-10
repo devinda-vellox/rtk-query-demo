@@ -28,13 +28,14 @@ export const handlers = [
   // GET /api/todos - Fetch all todos
   http.get("/api/todos", async () => {
     const start = performance.now()
-    await delay(mockConfig.latency)
 
     if (shouldFail()) {
+      await delay(mockConfig.latency)
       return simulatedError("GET", "/api/todos", start)
     }
 
     const todos = db.todos.getAll()
+    await delay(mockConfig.latency)
     const duration = Math.round(performance.now() - start)
     log("GET", "/api/todos", 200, duration)
     return HttpResponse.json(todos)
@@ -43,15 +44,16 @@ export const handlers = [
   // POST /api/todos - Create a new todo
   http.post("/api/todos", async ({ request }) => {
     const start = performance.now()
-    await delay(mockConfig.latency)
 
     if (shouldFail()) {
+      await delay(mockConfig.latency)
       return simulatedError("POST", "/api/todos", start)
     }
 
     const body = (await request.json()) as { text: string }
 
     if (!body.text?.trim()) {
+      await delay(mockConfig.latency)
       const duration = Math.round(performance.now() - start)
       log("POST", "/api/todos", 400, duration)
       return HttpResponse.json(
@@ -61,6 +63,7 @@ export const handlers = [
     }
 
     const newTodo = db.todos.create(body.text.trim())
+    await delay(mockConfig.latency)
     const duration = Math.round(performance.now() - start)
     log("POST", "/api/todos", 201, duration)
     return HttpResponse.json(newTodo, { status: 201 })
@@ -69,16 +72,17 @@ export const handlers = [
   // PATCH /api/todos/:id - Toggle todo completion
   http.patch("/api/todos/:id", async ({ params }) => {
     const start = performance.now()
-    await delay(mockConfig.latency)
     const { id } = params as { id: string }
     const path = `/api/todos/${id}`
 
     if (shouldFail()) {
+      await delay(mockConfig.latency)
       return simulatedError("PATCH", path, start)
     }
 
     const todo = db.todos.toggle(id)
     if (!todo) {
+      await delay(mockConfig.latency)
       const duration = Math.round(performance.now() - start)
       log("PATCH", path, 404, duration)
       return HttpResponse.json(
@@ -87,6 +91,7 @@ export const handlers = [
       )
     }
 
+    await delay(mockConfig.latency)
     const duration = Math.round(performance.now() - start)
     log("PATCH", path, 200, duration)
     return HttpResponse.json(todo)
@@ -95,16 +100,17 @@ export const handlers = [
   // DELETE /api/todos/:id - Delete a todo
   http.delete("/api/todos/:id", async ({ params }) => {
     const start = performance.now()
-    await delay(mockConfig.latency)
     const { id } = params as { id: string }
     const path = `/api/todos/${id}`
 
     if (shouldFail()) {
+      await delay(mockConfig.latency)
       return simulatedError("DELETE", path, start)
     }
 
     const deleted = db.todos.delete(id)
     if (!deleted) {
+      await delay(mockConfig.latency)
       const duration = Math.round(performance.now() - start)
       log("DELETE", path, 404, duration)
       return HttpResponse.json(
@@ -113,6 +119,7 @@ export const handlers = [
       )
     }
 
+    await delay(mockConfig.latency)
     const duration = Math.round(performance.now() - start)
     log("DELETE", path, 200, duration)
     return HttpResponse.json({ success: true })
